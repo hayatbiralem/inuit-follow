@@ -1,0 +1,127 @@
+/* ========================================================================
+   #FOLLOW
+   ======================================================================== */
+
+// The follow object makes fancy "follow me" lines.
+//
+// .o-follow
+//   .o-follow__item
+//     .o-follow__inner
+//       .o-follow__content
+//   .o-follow__item
+//     [...]
+
+
+// Base variables.
+$inuit-follow-background-color: #ff6347 !default; // tomato :)
+$inuit-follow-foreground-color: #fff !default;
+$inuit-follow-thickness: 2px !default;
+
+
+// Optional gradient background.
+//
+// If you want to add gradient background (I highly recommend)
+// you can try like this:
+//
+// $inuit-follow-background-gradient: linear-gradient(to right, orange, lightgreen);
+$inuit-follow-background-gradient: null !default;
+
+.o-follow {
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: "";
+    display: block;
+
+    background-color: $inuit-follow-background-color;
+
+    @if $inuit-follow-background-gradient != null {
+      background: $inuit-follow-background-gradient;
+    }
+  }
+}
+
+.o-follow__item {
+  position: relative;
+  z-index: 2;
+
+  display: block;
+  text-align: left;
+}
+
+.o-follow__inner {
+  position: relative;
+  display: block;
+  vertical-align: top;
+  box-sizing: border-box;
+
+  &:before,
+  &:after {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: $inuit-follow-thickness;
+
+    content: "";
+    display: block;
+
+    background-color: $inuit-follow-foreground-color;
+  }
+
+  &:after {
+    right: -100%;
+    left: 100%;
+    bottom: 0;
+  }
+}
+
+.o-follow__inner--pane {
+  &:before {
+    display: none;
+  }
+}
+
+.o-follow__item:nth-child(even) .o-follow__inner {
+  text-align: right;
+}
+
+.o-follow__item:nth-child(even) .o-follow__inner:before {
+  right: $inuit-follow-thickness;
+  left: 0;
+}
+
+.o-follow__item:nth-child(odd) .o-follow__inner:before {
+  left: $inuit-follow-thickness;
+  right: 0;
+}
+
+.o-follow__inner--hair,
+.o-follow__inner--tail {
+  z-index: 3;
+  height: 150px;
+}
+
+.o-follow__inner--half {
+  width: 50%;
+}
+
+.o-follow__inner--tail:before {
+  bottom: 0;
+}
+
+.o-follow__inner--tail:after {
+  top: -$inuit-follow-thickness;
+}
+
+.o-follow__content {
+  display: inline-block;
+  text-align: left;
+}
